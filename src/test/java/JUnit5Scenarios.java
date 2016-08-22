@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
@@ -65,12 +66,12 @@ class JUnit5Scenarios {
 
         @Test
         @Disabled
-        public void shouldDisableTest() {
+        void shouldDisableTest() {
 
         }
 
         @Test
-        public void shouldPerformStandardAssertions() {
+        void shouldPerformStandardAssertions() {
             // Given
             final short expected = 1;
             final short actual = 1;
@@ -86,7 +87,7 @@ class JUnit5Scenarios {
     class GroupedAssertions {
 
         @Test
-        public void shouldPerformGroupAssertions() {
+        void shouldPerformGroupAssertions() {
             // Given
             final short expected = 1;
             final short equal = 1;
@@ -106,7 +107,7 @@ class JUnit5Scenarios {
     class ExceptionHandling {
 
         @Test
-        public void shouldThrowException() {
+        void shouldThrowException() {
             // Given
             final Person person = new Person();
 
@@ -122,21 +123,21 @@ class JUnit5Scenarios {
     class Assumptions {
 
         @Test
-        public void shouldTestOnlyOnStationMachine() {
+        void shouldTestOnlyOnStationMachine() {
             // Assumptions
             final boolean stationMachine = "STATION".equals(System.getenv("COMPUTERNAME"));
             assumeTrue(stationMachine, "Aborting test. Not on STATION machine.");
         }
 
         @Test
-        public void shouldTestOnlyOnOuterSpaceMachine() {
+        void shouldTestOnlyOnOuterSpaceMachine() {
             // Assumptions
             final boolean outerSpaceMachine = "OUTER_SPACE".equals(System.getenv("COMPUTERNAME"));
             assumeTrue(outerSpaceMachine, "Aborting test. Not on OUTER_SPACE machine.");
         }
 
         @Test
-        public void shouldPerformAdditionalAssertionsOnStationMachine() {
+        void shouldPerformAdditionalAssertionsOnStationMachine() {
             // Given
             final boolean stationMachine = "STATION".equals(System.getenv("COMPUTERNAME"));
             final short expected = 1;
@@ -155,7 +156,7 @@ class JUnit5Scenarios {
         }
 
         @Test
-        public void shouldPerformGroupedAdditionalAssertionsOnStationMachine() {
+        void shouldPerformGroupedAdditionalAssertionsOnStationMachine() {
             // Given
             final boolean stationMachine = "STATION".equals(System.getenv("COMPUTERNAME"));
             final short expected = 1;
@@ -176,7 +177,7 @@ class JUnit5Scenarios {
         }
 
         @Test
-        public void shouldPerformGroupedAdditionalAssertionsOnStationMachineRefactored() {
+        void shouldPerformGroupedAdditionalAssertionsOnStationMachineRefactored() {
             // Given
             final boolean stationMachine = "STATION".equals(System.getenv("COMPUTERNAME"));
             final short expected = 1;
@@ -249,5 +250,22 @@ class JUnit5Scenarios {
                 .limit(10) //
                 .mapToObj(n -> dynamicTest("test" + n, () -> assertTrue(n % 2 == 0)));
         }
+    }
+
+    @Nested
+    class TaggedTest {
+
+        @Tag("fast")
+        @Test
+        void shouldBeTagged() {
+            assertTrue(true);
+        }
+
+        @Fast
+        @Test
+        void shouldBeTaggedByCustomAnnotation() {
+            assertTrue(true);
+        }
+
     }
 }
