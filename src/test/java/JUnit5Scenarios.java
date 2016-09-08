@@ -1,3 +1,4 @@
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -100,6 +101,24 @@ class JUnit5Scenarios {
                 () -> assertEquals(expected, notEqual, "Not equal 1"), // This will be reported as failed
                 () -> assertEquals(expected, equal, "Equal 2."), //
                 () -> assertEquals(expected, notEqual, "Not equal 2")); // This will be reported as failed
+        }
+
+        @Test
+        public void shouldMixGroupedAssertionsWithBDDThenAssertions() {
+            // Given
+            final short expected = 1;
+            final short equal = 1;
+            final short notEqual = 2;
+            final short notEqualSecond = 4;
+
+            // Then
+            // All failed assertions will be reported. Test will not stop on first fail.
+            assertAll("Grouped assertions mixed with BDD assertions.", //
+                () -> then(equal).isEqualTo(expected), //
+                () -> then(notEqual).isEqualTo(expected), // This will be reported as failed
+                () -> then(equal).isEqualTo(expected), //
+                () -> then(notEqualSecond).isEqualTo(expected) // This will be reported as failed
+            );
         }
     }
 
