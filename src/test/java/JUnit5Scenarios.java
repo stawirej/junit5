@@ -11,9 +11,11 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -269,6 +271,30 @@ class JUnit5Scenarios {
                 .limit(10) //
                 .mapToObj(n -> dynamicTest("test" + n, () -> assertTrue(n % 2 == 0)));
         }
+
+        @DisplayName("Parametrized test for even numbers.")
+        @TestFactory
+        Stream<DynamicTest> shouldCheckEvenNumbers() {
+            //Given
+            List<Integer> evenNumbers = Lists.newArrayList(2, 4, 6, 8);
+
+            //When
+            return evenNumbers
+                .stream()
+                .map(number -> DynamicTest.dynamicTest(
+                    "Testing number: " + number,
+                    () -> shouldCheckEvenNumber(number)
+                ));
+        }
+
+        void shouldCheckEvenNumber(Integer number) {
+            //When
+            final boolean isEven = EvenNumberChecker.isEven(number);
+
+            //Then
+            then(isEven).isTrue();
+        }
+
     }
 
     @Nested
