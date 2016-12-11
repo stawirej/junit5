@@ -68,7 +68,7 @@ class JUnit5Scenarios {
         }
 
         @Test
-        @Disabled
+        @Disabled("You can add description here.")
         void shouldDisableTest() {
 
         }
