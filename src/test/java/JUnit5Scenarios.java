@@ -1,8 +1,8 @@
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.expectThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
@@ -133,7 +133,7 @@ class JUnit5Scenarios {
             final Person person = new Person();
 
             // When
-            final Throwable exception = expectThrows(NoTitleException.class, person::getTitle);
+            final Throwable exception = assertThrows(NoTitleException.class, person::getTitle);
 
             // Then
             assertEquals("No title.", exception.getMessage());
